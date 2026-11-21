@@ -17,11 +17,14 @@ const IOS_SHARPNESS := 0.5
 
 ## Each step is Vector2i(duration in ms, strength 0 to 100). Strength 0 is a pause.
 var steps: Array[Vector2i] = []
+## Play again from the start when the last step ends. The total length is the period, so a trailing pause stays.
+var loop := false
 
 
 ## From a list of [duration_ms, strength] pairs, as the app's export writes it.
-static func from_steps(list: Array) -> GILHapticPattern:
+static func from_steps(list: Array, looping := false) -> GILHapticPattern:
 	var pattern := GILHapticPattern.new()
+	pattern.loop = looping
 	for item in list:
 		if item is Vector2i:
 			pattern.steps.append(item)
@@ -37,6 +40,7 @@ static func _snap(value: int, step: int, low: int, high: int) -> int:
 ## A copy within the app's limits: 1 to 16 steps, 10 to 1000 ms in tens, 0 to 100 in fives, 5 s in all. Never empty.
 func normalized() -> GILHapticPattern:
 	var result := GILHapticPattern.new()
+	result.loop = loop
 	var total := 0
 	for i in mini(steps.size(), MAX_STEPS):
 		var room := MAX_TOTAL_MS - total
@@ -70,7 +74,12 @@ func intensity_at(time_ms: float) -> float:
 	return 0.0
 
 
-## Android 8+ VibrationEffect.createWaveform(timings, amplitudes, -1): {"timings": [...], "amplitudes": [...]}.
+## The repeat argument of Android's createWaveform and Vibrator.vibrate(long[], repeat): 0 loops from the start, -1 plays once.
+func android_repeat() -> int:
+	return 0 if loop else -1
+
+
+## Android 8+ VibrationEffect.createWaveform(timings, amplitudes, android_repeat()): {"timings": [...], "amplitudes": [...]}.
 ## Amplitude 0 is off, 1 to 255 is the strength.
 func android_waveform() -> Dictionary:
 	var timings: Array[int] = []
@@ -126,6 +135,7 @@ static func from_json(text: String) -> GILHapticPattern:
 		push_error("Game Input Lab: unsupported format \"%s\". Expected \"%s\"." % [data["format"], JSON_FORMAT])
 		return null
 	var pattern := GILHapticPattern.new()
+	pattern.loop = data.get("loop", false) == true
 	var list: Variant = data.get("steps", [])
 	if list is Array:
 		for item in list:

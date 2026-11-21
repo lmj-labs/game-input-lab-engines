@@ -1,6 +1,6 @@
 {
   "name": "com.gameinputlab.input",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "Game Input Lab",
   "description": "Reference implementation of Game Input Lab's virtual joystick: the same response curve, smoothing and touch handling as the app, verified against shared test vectors.",
   "unity": "2022.3",

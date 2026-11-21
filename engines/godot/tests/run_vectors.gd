@@ -176,6 +176,11 @@ func _layout(v: Dictionary) -> void:
 			_near(float(control["centerX"]), centre.x, 1e-3, label + " x")
 			_near(float(control["centerY"]), centre.y, 1e-3, label + " y")
 
+	var portrait: Dictionary = v["portraitExport"]
+	var portrait_layout := Layout.from_json(portrait["json"])
+	_expect(portrait_layout != null and portrait_layout.orientation == str(portrait["orientation"]), "portrait export is portrait")
+	var plain := Layout.from_json('{"format": "game-input-lab/landscape-layout", "lab": "gamepad"}')
+	_expect(plain != null and plain.orientation == "landscape", "a layout without orientation is landscape")
 	var export: Dictionary = v["landscapeExport"]
 	var layout := Layout.from_json(export["json"])
 	_expect(layout != null, "landscape export parses")
@@ -196,6 +201,7 @@ func _layout(v: Dictionary) -> void:
 			_expect(stick != null, "stick " + str(expected["id"]))
 			if stick != null:
 				_same_config(GILJoystickConfig.from_dict(expected), stick, "stick " + str(expected["id"]))
+		_expect(layout.orientation == "landscape", "landscape export is landscape")
 		var defaults := layout.aim
 		_expect(defaults.release == "hold" and defaults.fire_threshold == 40.0, "a layout without aim gets the defaults")
 
@@ -315,7 +321,9 @@ func _haptics(v: Dictionary) -> void:
 	_expect(patterns.size() > 0, "haptic pattern cases exist")
 	for item in patterns:
 		var id := str(item["id"])
-		var pattern := HapticPattern.from_steps(_pairs(item["steps"]))
+		var pattern := HapticPattern.from_steps(_pairs(item["steps"]), bool(item["loop"]))
+		_expect(pattern.loop == bool(item["loop"]), id + " loop")
+		_expect(pattern.android_repeat() == int(item["androidRepeat"]), id + " android repeat")
 		_expect(pattern.duration_ms() == int(item["duration"]), id + " duration")
 		for sample in item["samples"]:
 			_near(float(sample["intensity"]), pattern.intensity_at(float(sample["timeMs"])), 1e-6, "%s at %s ms" % [id, sample["timeMs"]])
@@ -334,13 +342,18 @@ func _haptics(v: Dictionary) -> void:
 			_near(float(want["intensity"]), events[i]["intensity"], 1e-6, label + " intensity")
 			_near(float(want["sharpness"]), events[i]["sharpness"], 1e-6, label + " sharpness")
 	for item in haptics["normalize"]:
-		var actual := HapticPattern.from_steps(_pairs(item["input"]["steps"])).normalized().steps
+		var normalized := HapticPattern.from_steps(_pairs(item["input"]["steps"]), item["input"].get("loop", false) == true).normalized()
+		_expect(normalized.loop == bool(item["loop"]), "haptic normalize loop")
+		var actual := normalized.steps
 		var expected: Array = item["steps"]
 		_expect(actual.size() == expected.size(), "haptic normalize step count")
 		for i in mini(actual.size(), expected.size()):
 			_expect(actual[i].x == int(expected[i]["durationMs"]) and actual[i].y == int(expected[i]["intensity"]), "haptic normalize step %d" % i)
 	var from_json := HapticPattern.from_json('{"format":"game-input-lab/haptic-pattern","steps":[{"durationMs":33,"intensity":47},{"durationMs":80,"intensity":0}]}')
 	_expect(from_json != null and from_json.steps.size() == 2 and from_json.steps[0] == Vector2i(30, 45) and from_json.steps[1] == Vector2i(80, 0), "haptic JSON reads back, normalized")
+	_expect(from_json != null and not from_json.loop, "haptic JSON without loop does not loop")
+	var looped := HapticPattern.from_json('{"loop":true,"steps":[{"durationMs":30,"intensity":100}]}')
+	_expect(looped != null and looped.loop and looped.android_repeat() == 0, "haptic JSON loop reads back")
 
 
 func _pairs(list: Array) -> Array:

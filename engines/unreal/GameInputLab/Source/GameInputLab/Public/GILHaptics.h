@@ -34,7 +34,13 @@ struct GAMEINPUTLAB_API FGILHapticPattern
 
 	TArray<FGILHapticStep> Steps;
 
-	static FGILHapticPattern FromSteps(const TArray<FGILHapticStep>& InSteps);
+	/** Play again from the start when the last step ends. The total length is the period, so a trailing pause stays. */
+	bool bLoop = false;
+
+	static FGILHapticPattern FromSteps(const TArray<FGILHapticStep>& InSteps, bool bInLoop = false);
+
+	/** The repeat argument of Android's createWaveform and Vibrator.vibrate(long[], repeat): 0 loops from the start, -1 plays once. */
+	int32 AndroidRepeat() const { return bLoop ? 0 : -1; }
 
 	/** A copy within the app's limits: 1 to 16 steps, 10-1000 ms in tens, 0-100 in fives, 5 s in all. Never empty. */
 	FGILHapticPattern Normalized() const;
@@ -44,7 +50,7 @@ struct GAMEINPUTLAB_API FGILHapticPattern
 	/** Strength from 0 to 1 at TimeMs after the start. 0 before the start and from the end on. */
 	double IntensityAt(double TimeMs) const;
 
-	/** Android 8+ VibrationEffect.createWaveform(timings, amplitudes, -1). Amplitude 0 is off, 1-255 is the strength. */
+	/** Android 8+ VibrationEffect.createWaveform(timings, amplitudes, AndroidRepeat()). Amplitude 0 is off, 1-255 is the strength. */
 	TArray<int32> AndroidTimings() const;
 	TArray<int32> AndroidAmplitudes() const;
 

@@ -17,6 +17,7 @@ bool FGILLandscapeLayout::FromJson(const FString& Text, FGILLandscapeLayout& Out
 	}
 	FGILLandscapeLayout Layout;
 	Layout.Lab = GILJson::String(*Root, TEXT("lab"));
+	Layout.Orientation = GILJson::String(*Root, TEXT("orientation")) == TEXT("portrait") ? TEXT("portrait") : TEXT("landscape");
 
 	const TArray<TSharedPtr<FJsonValue>>* Controls = nullptr;
 	if (Root->TryGetArrayField(TEXT("controls"), Controls))

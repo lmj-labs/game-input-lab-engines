@@ -231,6 +231,14 @@ namespace
 			}
 		}
 
+		const FObj Portrait = SubPtr(V, TEXT("portraitExport"));
+		FGILLandscapeLayout PortraitLayout;
+		R.Expect(FGILLandscapeLayout::FromJson(Str(Portrait, TEXT("json")), PortraitLayout) && PortraitLayout.Orientation == Str(Portrait, TEXT("orientation")),
+			TEXT("portrait export is portrait"));
+		FGILLandscapeLayout PlainLayout;
+		R.Expect(FGILLandscapeLayout::FromJson(TEXT("{\"format\": \"game-input-lab/landscape-layout\", \"lab\": \"gamepad\"}"), PlainLayout)
+			&& PlainLayout.Orientation == TEXT("landscape"), TEXT("a layout without orientation is landscape"));
+
 		const FObj Export = SubPtr(V, TEXT("landscapeExport"));
 		FGILLandscapeLayout Parsed;
 		const bool bParsed = FGILLandscapeLayout::FromJson(Str(Export, TEXT("json")), Parsed);
@@ -240,6 +248,7 @@ namespace
 			return;
 		}
 		R.Expect(Parsed.Lab == TEXT("gamepad"), TEXT("landscape lab"));
+		R.Expect(Parsed.Orientation == TEXT("landscape"), TEXT("landscape export is landscape"));
 		R.Expect(Parsed.Controls.Num() == List(Export, TEXT("controls")).Num(), TEXT("landscape control count"));
 		for (const TSharedPtr<FJsonValue>& ControlValue : List(Export, TEXT("controls")))
 		{
@@ -349,9 +358,10 @@ namespace
 		R.Near(0.0, Half.Y, 1e-9, TEXT("tilt stick no sideways drift"));
 	}
 
-	FGILHapticPattern HapticPattern(const FList& Steps)
+	FGILHapticPattern HapticPattern(const FList& Steps, bool bLoop = false)
 	{
 		FGILHapticPattern Pattern;
+		Pattern.bLoop = bLoop;
 		for (const TSharedPtr<FJsonValue>& Value : Steps)
 		{
 			const FObj Item = Value->AsObject();
@@ -393,7 +403,9 @@ namespace
 		{
 			const FObj Item = Value->AsObject();
 			const FString Id = Str(Item, TEXT("id"));
-			const FGILHapticPattern Pattern = HapticPattern(List(Item, TEXT("steps")));
+			const FGILHapticPattern Pattern = HapticPattern(List(Item, TEXT("steps")), Item->GetBoolField(TEXT("loop")));
+			R.Expect(Pattern.bLoop == Item->GetBoolField(TEXT("loop")), Id + TEXT(" loop"));
+			R.Expect(Pattern.AndroidRepeat() == static_cast<int32>(Num(Item, TEXT("androidRepeat"))), Id + TEXT(" android repeat"));
 			R.Expect(Pattern.DurationMs() == static_cast<int32>(Num(Item, TEXT("duration"))), Id + TEXT(" duration"));
 			for (const TSharedPtr<FJsonValue>& SampleValue : List(Item, TEXT("samples")))
 			{
@@ -424,7 +436,11 @@ namespace
 		for (const TSharedPtr<FJsonValue>& Value : List(Block, TEXT("normalize")))
 		{
 			const FObj Item = Value->AsObject();
-			const FGILHapticPattern Actual = HapticPattern(List(SubPtr(Item, TEXT("input")), TEXT("steps"))).Normalized();
+			const FObj Input = SubPtr(Item, TEXT("input"));
+			bool bInputLoop = false;
+			Input->TryGetBoolField(TEXT("loop"), bInputLoop);
+			const FGILHapticPattern Actual = HapticPattern(List(Input, TEXT("steps")), bInputLoop).Normalized();
+			R.Expect(Actual.bLoop == Item->GetBoolField(TEXT("loop")), TEXT("haptic normalize loop"));
 			const FList& Expected = List(Item, TEXT("steps"));
 			R.Expect(Actual.Steps.Num() == Expected.Num(), TEXT("haptic normalize step count"));
 			for (int32 Index = 0; Index < Actual.Steps.Num() && Index < Expected.Num(); ++Index)
@@ -440,6 +456,10 @@ namespace
 		const bool bParsed = FGILHapticPattern::FromJson(TEXT("{\"format\":\"game-input-lab/haptic-pattern\",\"steps\":[{\"durationMs\":33,\"intensity\":47},{\"durationMs\":80,\"intensity\":0}]}"), Parsed);
 		R.Expect(bParsed && Parsed.Steps.Num() == 2 && Parsed.Steps[0].DurationMs == 30 && Parsed.Steps[0].Intensity == 45 && Parsed.Steps[1].DurationMs == 80,
 			TEXT("haptic JSON reads back, normalized"));
+		R.Expect(bParsed && !Parsed.bLoop, TEXT("haptic JSON without loop does not loop"));
+		FGILHapticPattern Looped;
+		R.Expect(FGILHapticPattern::FromJson(TEXT("{\"loop\":true,\"steps\":[{\"durationMs\":30,\"intensity\":100}]}"), Looped) && Looped.bLoop && Looped.AndroidRepeat() == 0,
+			TEXT("haptic JSON loop reads back"));
 		FGILHapticPattern Other;
 		R.Expect(!FGILHapticPattern::FromJson(TEXT("{\"format\":\"other\",\"steps\":[]}"), Other), TEXT("haptic JSON of another format is refused"));
 		const TArray<uint8> Samples = FGILHapticPattern::FromSteps({ { 30, 100 }, { 20, 0 } }).Amplitudes(100);

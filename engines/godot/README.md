@@ -29,7 +29,7 @@ tracker.step([{ "id": 0, "position": Vector2(150, 150), "phase": "began" }], del
 | `GILVirtualJoystick` | Control node on top of the tracker; releases on focus loss | |
 | `GILAimBehavior` | Weapon heading, fire threshold, slow while aiming | `components/aimBehavior.ts` |
 | `GILSceneMotion` | Reference scene: speed, acceleration, turning, follow camera | `components/sceneMotion.ts` |
-| `GILSafeAreaLayout`, `GILLandscapeLayout` | Safe-area placement, layout JSON, `apply` to Controls | `landscape/layout.ts` |
+| `GILSafeAreaLayout`, `GILLandscapeLayout` | Safe-area placement, layout JSON (`orientation`: "landscape" or "portrait", lock the screen to match), `apply` to Controls | `landscape/layout.ts` |
 
 Notes:
 - Positions and outputs use +y up, like the app. `GILVirtualJoystick` flips Godot's screen y for you.
@@ -43,7 +43,7 @@ Notes:
 
 ## Haptics
 
-`GILHapticPattern` is a custom vibration from the Haptics Lab: `intensity_at(time_ms)`, `android_waveform()`, `legacy_timings()` and `ios_events()`. `GILHapticPlayer` (a Node) plays it with `Input.vibrate_handheld`, one call per step: from Godot 4.3 each step has its own strength, before that every step above 0 is full strength. Godot cannot cut a vibration that has started, so `stop()` only keeps later steps from starting. The player has not been run on a device.
+`GILHapticPattern` is a custom vibration from the Haptics Lab: `intensity_at(time_ms)`, `android_waveform()`, `legacy_timings()` and `ios_events()`. `loop` repeats the pattern from the start when it ends (its total length is the period, so end it with a 0% step to leave a gap); `android_repeat()` is the matching Android `repeat` argument. `GILHapticPlayer` (a Node) plays it with `Input.vibrate_handheld`, one call per step: from Godot 4.3 each step has its own strength, before that every step above 0 is full strength. Godot cannot cut a vibration that has started, so `stop()` only keeps later steps from starting. A looping pattern runs until `stop()`. The player has not been run on a device.
 
 ## Tests
 

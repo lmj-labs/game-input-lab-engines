@@ -34,6 +34,8 @@ struct GAMEINPUTLAB_API FGILLandscapeLayout
 {
 	/** "gamepad" (stick and buttons) or "dualStick". */
 	FString Lab;
+	/** "landscape" or "portrait": which way the phone is held. The layout was made for that one; lock the screen to match. */
+	FString Orientation = TEXT("landscape");
 	TArray<FGILControlLayout> Controls;
 	/** Stick id ("left", "right") to its parameters. */
 	TMap<FString, FGILJoystickConfig> Sticks;

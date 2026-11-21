@@ -10,6 +10,8 @@ const Aim := preload("gil_aim_behavior.gd")
 
 ## "gamepad" (stick and buttons) or "dualStick".
 var lab := ""
+## "landscape" or "portrait": which way the phone is held. The layout was made for that one; lock the screen to match.
+var orientation := "landscape"
 ## Each: { "id": String, "anchor": Vector2 (fraction of the safe area, y up from the bottom), "visual": float, "hit": float }.
 ## Visual and hit are button diameters in points; a stick is as wide as its ring.
 var controls: Array = []
@@ -32,6 +34,7 @@ static func from_json(text: String) -> GILLandscapeLayout:
 		return null
 	var layout := GILLandscapeLayout.new()
 	layout.lab = str(data.get("lab", ""))
+	layout.orientation = "portrait" if str(data.get("orientation", "")) == "portrait" else "landscape"
 	for item in data.get("controls", []):
 		layout.controls.append({
 			"id": str(item["id"]),

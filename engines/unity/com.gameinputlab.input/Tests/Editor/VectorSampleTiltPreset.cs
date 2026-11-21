@@ -1,7 +1,7 @@
 // VectorSampleTiltPreset.cs
 // Game Input Lab tilt preset "Vector sample tilt".
 //
-// Needs the com.gameinputlab.input package (Unity 2022.3+). Version 0.1.0 or newer. Package Manager ▸ + ▸ Add package from git URL:
+// Needs the com.gameinputlab.input package (Unity 2022.3+). Version 0.2.0 or newer. Package Manager ▸ + ▸ Add package from git URL:
 //   https://github.com/lmj-labs/game-input-lab-engines.git?path=/engines/unity/com.gameinputlab.input
 // The package runs the same tilt, response and smoothing as the app.
 //

@@ -18,7 +18,7 @@ namespace GameInputLab.Tests
             return JsonUtility.FromJson<VectorFile>(asset.text).haptics;
         }
 
-        static HapticPattern ToPattern(StepDto[] steps) => new HapticPattern(steps.Select(item => new HapticStep(item.durationMs, item.intensity)).ToArray());
+        static HapticPattern ToPattern(StepDto[] steps, bool loop = false) => new HapticPattern(steps.Select(item => new HapticStep(item.durationMs, item.intensity)).ToArray()) { Loop = loop };
 
         [Test]
         public void LimitsMatchTheApp()
@@ -47,7 +47,8 @@ namespace GameInputLab.Tests
         {
             foreach (PatternDto item in Load().patterns)
             {
-                HapticPattern pattern = ToPattern(item.steps);
+                HapticPattern pattern = ToPattern(item.steps, item.loop);
+                Assert.AreEqual(item.androidRepeat, pattern.AndroidRepeat, item.id + " repeat");
                 pattern.AndroidWaveform(out long[] timings, out int[] amplitudes);
                 CollectionAssert.AreEqual(item.android.timings.Select(value => (long)value).ToArray(), timings, item.id + " timings");
                 CollectionAssert.AreEqual(item.android.amplitudes, amplitudes, item.id + " amplitudes");
@@ -79,7 +80,9 @@ namespace GameInputLab.Tests
         {
             foreach (NormalizeDto item in Load().normalize)
             {
-                HapticStep[] actual = ToPattern(item.input.steps).Normalized().Steps;
+                HapticPattern normalized = ToPattern(item.input.steps, item.input.loop).Normalized();
+                HapticStep[] actual = normalized.Steps;
+                Assert.AreEqual(item.loop, normalized.Loop, "loop");
                 Assert.AreEqual(item.steps.Length, actual.Length, "step count");
                 for (int i = 0; i < actual.Length; i++)
                 {
@@ -97,6 +100,8 @@ namespace GameInputLab.Tests
             Assert.AreEqual(3, steps.Length);
             Assert.AreEqual(30, steps[2].durationMs);
             Assert.AreEqual(45, steps[2].intensity);
+            Assert.IsFalse(HapticPattern.FromJson(json).Loop);
+            Assert.IsTrue(HapticPattern.FromJson("{\"loop\":true,\"steps\":[{\"durationMs\":30,\"intensity\":100}]}").Loop);
             Assert.Throws<System.ArgumentException>(() => HapticPattern.FromJson("{\"format\":\"other\",\"steps\":[]}"));
         }
 
@@ -116,13 +121,15 @@ namespace GameInputLab.Tests
         {
             public string id;
             public StepDto[] steps;
+            public bool loop;
+            public int androidRepeat;
             public int duration;
             public SampleDto[] samples;
             public AndroidDto android;
             public long[] legacy;
             public EventDto[] ios;
         }
-        [System.Serializable] class InputDto { public StepDto[] steps; }
-        [System.Serializable] class NormalizeDto { public InputDto input; public StepDto[] steps; }
+        [System.Serializable] class InputDto { public StepDto[] steps; public bool loop; }
+        [System.Serializable] class NormalizeDto { public InputDto input; public StepDto[] steps; public bool loop; }
     }
 }

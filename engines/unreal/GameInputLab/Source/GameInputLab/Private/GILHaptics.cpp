@@ -16,16 +16,18 @@ namespace
 	}
 }
 
-FGILHapticPattern FGILHapticPattern::FromSteps(const TArray<FGILHapticStep>& InSteps)
+FGILHapticPattern FGILHapticPattern::FromSteps(const TArray<FGILHapticStep>& InSteps, bool bInLoop)
 {
 	FGILHapticPattern Result;
 	Result.Steps = InSteps;
+	Result.bLoop = bInLoop;
 	return Result;
 }
 
 FGILHapticPattern FGILHapticPattern::Normalized() const
 {
 	FGILHapticPattern Result;
+	Result.bLoop = bLoop;
 	int32 Total = 0;
 	for (int32 Index = 0; Index < Steps.Num() && Index < MaxSteps; ++Index)
 	{
@@ -178,6 +180,9 @@ bool FGILHapticPattern::FromJson(const FString& Text, FGILHapticPattern& OutPatt
 		}
 	}
 	FGILHapticPattern Parsed;
+	bool bLoopValue = false;
+	Root->TryGetBoolField(TEXT("loop"), bLoopValue);
+	Parsed.bLoop = bLoopValue;
 	const TArray<TSharedPtr<FJsonValue>>* List = nullptr;
 	if (Root->TryGetArrayField(TEXT("steps"), List) && List != nullptr)
 	{

@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "0.1.0",
+	"VersionName": "0.2.0",
 	"FriendlyName": "Game Input Lab",
 	"Description": "Reference implementation of the Game Input Lab app's joystick, aim and layout rules, so a preset tuned on a device behaves the same in Unreal.",
 	"Category": "Input",

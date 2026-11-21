@@ -33,6 +33,8 @@ namespace GameInputLab
 
         /// <summary>"gamepad" (stick and buttons) or "dualStick".</summary>
         public string lab;
+        /// <summary>"landscape" or "portrait": which way the phone is held. The layout was made for that one; lock the screen to match.</summary>
+        public string orientation = "landscape";
         public ControlLayout[] controls = new ControlLayout[0];
         public StickLayout[] sticks = new StickLayout[0];
         /// <summary>What the right stick does to the aim. Only the "dualStick" lab exports it; other layouts get the defaults.</summary>
@@ -117,7 +119,7 @@ namespace GameInputLab
                 throw new ArgumentException($"Unsupported format \"{data.format}\". Expected \"{JsonFormat}\".", nameof(json));
             }
 
-            var layout = new LandscapeLayout { lab = data.lab };
+            var layout = new LandscapeLayout { lab = data.lab, orientation = data.orientation == "portrait" ? "portrait" : "landscape" };
             if (data.controls != null)
             {
                 layout.controls = new ControlLayout[data.controls.Length];
@@ -152,6 +154,7 @@ namespace GameInputLab
         {
             public string format;
             public string lab;
+            public string orientation;
             public ControlJson[] controls;
             public StickJson[] sticks;
             public AimBehaviorConfig aim;

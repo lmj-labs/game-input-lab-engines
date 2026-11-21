@@ -6,7 +6,8 @@ namespace GameInputLab
     /// Plays a <see cref="HapticPattern"/>. Android runs the pattern through Vibrator and VibrationEffect, at the designed
     /// strengths when the phone can set them. Unity has no CoreHaptics, so iOS only gets <c>Handheld.Vibrate()</c>: use
     /// <see cref="HapticPattern.IosEvents"/> with a CoreHaptics plugin of your own for the real pattern. The editor does nothing.
-    /// Android needs the VIBRATE permission in the manifest.
+    /// A pattern with <see cref="HapticPattern.Loop"/> repeats until <see cref="Cancel"/> (on Android, through the system's own
+    /// repeat, without gaps; on iOS <c>Handheld.Vibrate()</c> plays once). Android needs the VIBRATE permission in the manifest.
     /// </summary>
     public static class HapticPlayer
     {
@@ -50,7 +51,7 @@ namespace GameInputLab
                 using (var version = new AndroidJavaClass("android.os.Build$VERSION")) api = version.GetStatic<int>("SDK_INT");
                 if (api < 26)
                 {
-                    vibrator.Call("vibrate", legacy, -1);
+                    vibrator.Call("vibrate", legacy, pattern.AndroidRepeat);
                     return;
                 }
                 using (var effects = new AndroidJavaClass("android.os.VibrationEffect"))
@@ -59,11 +60,11 @@ namespace GameInputLab
                     if (vibrator.Call<bool>("hasAmplitudeControl"))
                     {
                         pattern.AndroidWaveform(out long[] timings, out int[] amplitudes);
-                        effect = effects.CallStatic<AndroidJavaObject>("createWaveform", timings, amplitudes, -1);
+                        effect = effects.CallStatic<AndroidJavaObject>("createWaveform", timings, amplitudes, pattern.AndroidRepeat);
                     }
                     else
                     {
-                        effect = effects.CallStatic<AndroidJavaObject>("createWaveform", legacy, -1);
+                        effect = effects.CallStatic<AndroidJavaObject>("createWaveform", legacy, pattern.AndroidRepeat);
                     }
                     using (effect) vibrator.Call("vibrate", effect);
                 }

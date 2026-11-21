@@ -2,7 +2,7 @@
 
 Reference implementations for Unity, Godot and Unreal of the Game Input Lab app. They run the same stick response, smoothing, touch handling, layouts, tilt and vibration rules as the app, and are checked against the same test vectors, so what you tuned on a phone behaves the same in your game.
 
-Version 0.1.0. The code the app exports asks for this version or newer.
+Version 0.2.0. The code the app exports asks for this version or newer.
 
 | Engine | Folder | Install |
 |---|---|---|

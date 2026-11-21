@@ -33,7 +33,7 @@ Vector2 move = tracker.Output;
 // Call tracker.Interrupt() when the app pauses or loses focus.
 ```
 
-**Landscape layout.** The app's landscape labs export where each control sits (a fraction of the safe area, y up) and how big it is. Put a full-screen Canvas, then an empty child with *SafeAreaPanel*, then one RectTransform per control inside it. Load the JSON (`LandscapeLayout.FromJson(textAsset.text)`) or paste the C# export (`MyPadLandscapeLayout.Create()`), then:
+**Landscape layout.** The app's landscape labs export where each control sits (a fraction of the safe area, y up) and how big it is. Put a full-screen Canvas, then an empty child with *SafeAreaPanel*, then one RectTransform per control inside it. The layout is for one way of holding the phone: `layout.orientation` is `"landscape"` or `"portrait"` (older exports without it are landscape), so lock the screen to match. Load the JSON (`LandscapeLayout.FromJson(textAsset.text)`) or paste the C# export (`MyPadLandscapeLayout.Create()`), then:
 
 ```csharp
 float units = SafeAreaLayout.UnitsPerPoint(canvas);
@@ -64,7 +64,7 @@ Units match the app: radius in points (pixels ÷ `Screen.dpi / 160`; set **Pixel
 
 `Tilt.Target(accel, neutral, config)` and `TiltStick` turn phone tilt into a stick output (Tilt Lab). Feed `TiltStick.Step` the gravity vector each frame in iOS convention: x right, y toward the top edge, z out of the screen, face up = z -1. Android's raw accelerometer has the opposite sign, so negate it there. Call `Calibrate` with the pose the player holds. Upright forward/back tilt cannot be measured from gravity alone.
 
-`HapticPattern` is a custom vibration from the Haptics Lab: `IntensityAt(timeMs)`, `AndroidWaveform(out timings, out amplitudes)`, `LegacyTimings()` (phones that cannot set the strength) and `IosEvents()` (CoreHaptics events). `HapticPlayer.Play(pattern)` plays it on Android through `Vibrator` and `VibrationEffect` (needs the VIBRATE permission in the manifest and Android 8+ for the designed strengths). Unity has no CoreHaptics, so on iOS the player only calls `Handheld.Vibrate()`; feed `IosEvents()` to a CoreHaptics plugin for the real pattern. The editor does nothing. The Android calls were written without a device and have not been run.
+`HapticPattern` is a custom vibration from the Haptics Lab: `IntensityAt(timeMs)`, `AndroidWaveform(out timings, out amplitudes)`, `LegacyTimings()` (phones that cannot set the strength) and `IosEvents()` (CoreHaptics events). `Loop` repeats the pattern from the start when it ends (its total length is the period, so end it with a 0% step to leave a gap); `AndroidRepeat` is the matching `repeat` argument. `HapticPlayer.Play(pattern)` plays it on Android through `Vibrator` and `VibrationEffect` (needs the VIBRATE permission in the manifest and Android 8+ for the designed strengths). Unity has no CoreHaptics, so on iOS the player only calls `Handheld.Vibrate()`; feed `IosEvents()` to a CoreHaptics plugin for the real pattern. A looping pattern runs until `HapticPlayer.Cancel()`: on Android through the system's own repeat (no gaps), on iOS `Handheld.Vibrate()` plays once. The editor does nothing. The Android calls were written without a device and have not been run.
 
 ## Consistency with the app
 

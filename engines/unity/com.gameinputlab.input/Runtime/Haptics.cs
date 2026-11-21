@@ -47,6 +47,12 @@ namespace GameInputLab
 
         public HapticStep[] Steps { get; }
 
+        /// <summary>Play again from the start when the last step ends. The total length is the period, so a trailing pause stays.</summary>
+        public bool Loop { get; set; }
+
+        /// <summary>The repeat argument of Android's createWaveform and Vibrator.vibrate(long[], repeat): 0 loops from the start, -1 plays once.</summary>
+        public int AndroidRepeat => Loop ? 0 : -1;
+
         public HapticPattern(params HapticStep[] steps)
         {
             Steps = steps ?? new HapticStep[0];
@@ -79,7 +85,7 @@ namespace GameInputLab
                 total += duration;
             }
             if (steps.Count == 0) steps.Add(new HapticStep(30, 100));
-            return new HapticPattern(steps.ToArray());
+            return new HapticPattern(steps.ToArray()) { Loop = Loop };
         }
 
         /// <summary>Strength from 0 to 1 at <paramref name="timeMs"/> after the start. 0 before the start and from the end on.</summary>
@@ -95,7 +101,7 @@ namespace GameInputLab
             return 0f;
         }
 
-        /// <summary>Android 8+ VibrationEffect.createWaveform(timings, amplitudes, -1): amplitude 0 is off, 1-255 is the strength.</summary>
+        /// <summary>Android 8+ VibrationEffect.createWaveform(timings, amplitudes, <see cref="AndroidRepeat"/>): amplitude 0 is off, 1-255 is the strength.</summary>
         public void AndroidWaveform(out long[] timings, out int[] amplitudes)
         {
             timings = new long[Steps.Length];
@@ -155,13 +161,14 @@ namespace GameInputLab
             JsonUtility.FromJsonOverwrite(json, data);
             if (!string.IsNullOrEmpty(data.format) && data.format != JsonFormat)
                 throw new ArgumentException($"Unsupported format \"{data.format}\". Expected \"{JsonFormat}\".", nameof(json));
-            return new HapticPattern(data.steps ?? new HapticStep[0]).Normalized();
+            return new HapticPattern(data.steps ?? new HapticStep[0]) { Loop = data.loop }.Normalized();
         }
 
         [Serializable]
         sealed class PatternJson
         {
             public string format;
+            public bool loop;
             public HapticStep[] steps;
         }
     }

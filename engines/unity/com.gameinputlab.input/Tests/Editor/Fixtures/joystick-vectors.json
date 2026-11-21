@@ -9915,6 +9915,8 @@
             "intensity": 100
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 30,
         "samples": [
           {
@@ -10012,6 +10014,8 @@
             "intensity": 100
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 140,
         "samples": [
           {
@@ -10126,6 +10130,8 @@
             "intensity": 0
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 700,
         "samples": [
           {
@@ -10259,6 +10265,8 @@
             "intensity": 100
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 400,
         "samples": [
           {
@@ -10411,6 +10419,8 @@
             "intensity": 60
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 400,
         "samples": [
           {
@@ -10516,6 +10526,8 @@
             "intensity": 100
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 550,
         "samples": [
           {
@@ -10665,6 +10677,8 @@
             "intensity": 100
           }
         ],
+        "loop": false,
+        "androidRepeat": -1,
         "duration": 1170,
         "samples": [
           {
@@ -10780,6 +10794,275 @@
             "sharpness": 0.5
           }
         ]
+      },
+      {
+        "id": "customLoop",
+        "steps": [
+          {
+            "durationMs": 20,
+            "intensity": 0
+          },
+          {
+            "durationMs": 30,
+            "intensity": 5
+          },
+          {
+            "durationMs": 40,
+            "intensity": 90
+          },
+          {
+            "durationMs": 10,
+            "intensity": 0
+          },
+          {
+            "durationMs": 10,
+            "intensity": 0
+          },
+          {
+            "durationMs": 60,
+            "intensity": 45
+          },
+          {
+            "durationMs": 1000,
+            "intensity": 100
+          }
+        ],
+        "loop": true,
+        "androidRepeat": 0,
+        "duration": 1170,
+        "samples": [
+          {
+            "timeMs": -1,
+            "intensity": 0
+          },
+          {
+            "timeMs": 0,
+            "intensity": 0
+          },
+          {
+            "timeMs": 9.5,
+            "intensity": 0
+          },
+          {
+            "timeMs": 10,
+            "intensity": 0
+          },
+          {
+            "timeMs": 29.9,
+            "intensity": 0.05
+          },
+          {
+            "timeMs": 30,
+            "intensity": 0.05
+          },
+          {
+            "timeMs": 55,
+            "intensity": 0.9
+          },
+          {
+            "timeMs": 110,
+            "intensity": 0.45
+          },
+          {
+            "timeMs": 140,
+            "intensity": 0.45
+          },
+          {
+            "timeMs": 249.9,
+            "intensity": 1
+          },
+          {
+            "timeMs": 250,
+            "intensity": 1
+          },
+          {
+            "timeMs": 1169.9,
+            "intensity": 1
+          },
+          {
+            "timeMs": 1170,
+            "intensity": 0
+          },
+          {
+            "timeMs": 1171,
+            "intensity": 0
+          }
+        ],
+        "android": {
+          "timings": [
+            20,
+            30,
+            40,
+            10,
+            10,
+            60,
+            1000
+          ],
+          "amplitudes": [
+            0,
+            13,
+            230,
+            0,
+            0,
+            115,
+            255
+          ]
+        },
+        "legacy": [
+          20,
+          70,
+          20,
+          1060
+        ],
+        "ios": [
+          {
+            "kind": "transient",
+            "time": 0.02,
+            "duration": 0,
+            "intensity": 0.05,
+            "sharpness": 0.5
+          },
+          {
+            "kind": "continuous",
+            "time": 0.05,
+            "duration": 0.04,
+            "intensity": 0.9,
+            "sharpness": 0.5
+          },
+          {
+            "kind": "continuous",
+            "time": 0.11,
+            "duration": 0.06,
+            "intensity": 0.45,
+            "sharpness": 0.5
+          },
+          {
+            "kind": "continuous",
+            "time": 0.17,
+            "duration": 1,
+            "intensity": 1,
+            "sharpness": 0.5
+          }
+        ]
+      },
+      {
+        "id": "heartbeatLoop",
+        "steps": [
+          {
+            "durationMs": 40,
+            "intensity": 100
+          },
+          {
+            "durationMs": 100,
+            "intensity": 0
+          },
+          {
+            "durationMs": 60,
+            "intensity": 70
+          },
+          {
+            "durationMs": 500,
+            "intensity": 0
+          }
+        ],
+        "loop": true,
+        "androidRepeat": 0,
+        "duration": 700,
+        "samples": [
+          {
+            "timeMs": -1,
+            "intensity": 0
+          },
+          {
+            "timeMs": 0,
+            "intensity": 1
+          },
+          {
+            "timeMs": 9.5,
+            "intensity": 1
+          },
+          {
+            "timeMs": 10,
+            "intensity": 1
+          },
+          {
+            "timeMs": 29.9,
+            "intensity": 1
+          },
+          {
+            "timeMs": 30,
+            "intensity": 1
+          },
+          {
+            "timeMs": 55,
+            "intensity": 0
+          },
+          {
+            "timeMs": 110,
+            "intensity": 0
+          },
+          {
+            "timeMs": 140,
+            "intensity": 0.7
+          },
+          {
+            "timeMs": 249.9,
+            "intensity": 0
+          },
+          {
+            "timeMs": 250,
+            "intensity": 0
+          },
+          {
+            "timeMs": 699.9,
+            "intensity": 0
+          },
+          {
+            "timeMs": 700,
+            "intensity": 0
+          },
+          {
+            "timeMs": 701,
+            "intensity": 0
+          }
+        ],
+        "android": {
+          "timings": [
+            40,
+            100,
+            60,
+            500
+          ],
+          "amplitudes": [
+            255,
+            0,
+            179,
+            0
+          ]
+        },
+        "legacy": [
+          0,
+          40,
+          100,
+          60,
+          500
+        ],
+        "ios": [
+          {
+            "kind": "continuous",
+            "time": 0,
+            "duration": 0.04,
+            "intensity": 1,
+            "sharpness": 0.5
+          },
+          {
+            "kind": "continuous",
+            "time": 0.14,
+            "duration": 0.06,
+            "intensity": 0.7,
+            "sharpness": 0.5
+          }
+        ]
       }
     ],
     "normalize": [
@@ -10792,7 +11075,57 @@
             "durationMs": 30,
             "intensity": 100
           }
-        ]
+        ],
+        "loop": false
+      },
+      {
+        "input": {
+          "steps": [],
+          "loop": true
+        },
+        "steps": [
+          {
+            "durationMs": 30,
+            "intensity": 100
+          }
+        ],
+        "loop": true
+      },
+      {
+        "input": {
+          "steps": [
+            {
+              "durationMs": 40,
+              "intensity": 55
+            }
+          ],
+          "loop": true
+        },
+        "steps": [
+          {
+            "durationMs": 40,
+            "intensity": 55
+          }
+        ],
+        "loop": true
+      },
+      {
+        "input": {
+          "steps": [
+            {
+              "durationMs": 40,
+              "intensity": 55
+            }
+          ],
+          "loop": false
+        },
+        "steps": [
+          {
+            "durationMs": 40,
+            "intensity": 55
+          }
+        ],
+        "loop": false
       },
       {
         "input": {
@@ -10824,7 +11157,8 @@
             "durationMs": 10,
             "intensity": 100
           }
-        ]
+        ],
+        "loop": false
       },
       {
         "input": {
@@ -11056,7 +11390,8 @@
             "durationMs": 10,
             "intensity": 50
           }
-        ]
+        ],
+        "loop": false
       },
       {
         "input": {
@@ -11244,7 +11579,8 @@
             "durationMs": 1000,
             "intensity": 50
           }
-        ]
+        ],
+        "loop": false
       },
       {
         "input": {
@@ -11296,12 +11632,13 @@
             "durationMs": 1000,
             "intensity": 65
           }
-        ]
+        ],
+        "loop": false
       }
     ]
   },
   "dualStickExport": {
-    "json": "{\n  \"format\": \"game-input-lab/landscape-layout\",\n  \"version\": 1,\n  \"name\": \"Vector sample dual\",\n  \"lab\": \"dualStick\",\n  \"units\": {\n    \"anchorX\": \"fraction of the safe area width, from the left\",\n    \"anchorY\": \"fraction of the safe area height, from the bottom (y up, like a Unity anchor)\",\n    \"visual\": \"visible button diameter in points\",\n    \"hit\": \"touch (hit) diameter in points\",\n    \"sticks\": \"same fields and units as game-input-lab/joystick; a stick ring is 2 × radius wide\",\n    \"aim\": \"release: hold or forward; fireThreshold and slowWhileAiming are percents\"\n  },\n  \"controls\": [\n    {\n      \"id\": \"left\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.22,\n      \"anchorY\": 0.35\n    },\n    {\n      \"id\": \"right\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.78,\n      \"anchorY\": 0.35\n    }\n  ],\n  \"sticks\": [\n    {\n      \"id\": \"left\",\n      \"mode\": \"fixed\",\n      \"radius\": 64,\n      \"deadZone\": 10,\n      \"outerDeadZone\": 0,\n      \"curve\": 1,\n      \"sensitivity\": 1,\n      \"smoothing\": 0\n    },\n    {\n      \"id\": \"right\",\n      \"mode\": \"fixed\",\n      \"radius\": 72,\n      \"deadZone\": 8,\n      \"outerDeadZone\": 0,\n      \"curve\": 1,\n      \"sensitivity\": 1.1,\n      \"smoothing\": 0\n    }\n  ],\n  \"aim\": {\n    \"release\": \"forward\",\n    \"fireThreshold\": 55,\n    \"slowWhileAiming\": 30\n  }\n}",
+    "json": "{\n  \"format\": \"game-input-lab/landscape-layout\",\n  \"version\": 1,\n  \"name\": \"Vector sample dual\",\n  \"lab\": \"dualStick\",\n  \"orientation\": \"landscape\",\n  \"units\": {\n    \"orientation\": \"landscape or portrait: which way the phone is held; the layout is for that one\",\n    \"anchorX\": \"fraction of the safe area width, from the left\",\n    \"anchorY\": \"fraction of the safe area height, from the bottom (y up, like a Unity anchor)\",\n    \"visual\": \"visible button diameter in points\",\n    \"hit\": \"touch (hit) diameter in points\",\n    \"sticks\": \"same fields and units as game-input-lab/joystick; a stick ring is 2 × radius wide\",\n    \"aim\": \"release: hold or forward; fireThreshold and slowWhileAiming are percents\"\n  },\n  \"controls\": [\n    {\n      \"id\": \"left\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.22,\n      \"anchorY\": 0.35\n    },\n    {\n      \"id\": \"right\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.78,\n      \"anchorY\": 0.35\n    }\n  ],\n  \"sticks\": [\n    {\n      \"id\": \"left\",\n      \"mode\": \"fixed\",\n      \"radius\": 64,\n      \"deadZone\": 10,\n      \"outerDeadZone\": 0,\n      \"curve\": 1,\n      \"sensitivity\": 1,\n      \"smoothing\": 0\n    },\n    {\n      \"id\": \"right\",\n      \"mode\": \"fixed\",\n      \"radius\": 72,\n      \"deadZone\": 8,\n      \"outerDeadZone\": 0,\n      \"curve\": 1,\n      \"sensitivity\": 1.1,\n      \"smoothing\": 0\n    }\n  ],\n  \"aim\": {\n    \"release\": \"forward\",\n    \"fireThreshold\": 55,\n    \"slowWhileAiming\": 30\n  }\n}",
     "aim": {
       "release": "forward",
       "fireThreshold": 55,
@@ -11799,7 +12136,7 @@
     }
   ],
   "landscapeExport": {
-    "json": "{\n  \"format\": \"game-input-lab/landscape-layout\",\n  \"version\": 1,\n  \"name\": \"Vector sample\",\n  \"lab\": \"gamepad\",\n  \"units\": {\n    \"anchorX\": \"fraction of the safe area width, from the left\",\n    \"anchorY\": \"fraction of the safe area height, from the bottom (y up, like a Unity anchor)\",\n    \"visual\": \"visible button diameter in points\",\n    \"hit\": \"touch (hit) diameter in points\",\n    \"sticks\": \"same fields and units as game-input-lab/joystick; a stick ring is 2 × radius wide\"\n  },\n  \"controls\": [\n    {\n      \"id\": \"left\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.22,\n      \"anchorY\": 0.35\n    },\n    {\n      \"id\": \"A\",\n      \"kind\": \"button\",\n      \"anchorX\": 0.7,\n      \"anchorY\": 0.25,\n      \"visual\": 60,\n      \"hit\": 80\n    },\n    {\n      \"id\": \"B\",\n      \"kind\": \"button\",\n      \"anchorX\": 0.86,\n      \"anchorY\": 0.52,\n      \"visual\": 56,\n      \"hit\": 72\n    }\n  ],\n  \"sticks\": [\n    {\n      \"id\": \"left\",\n      \"mode\": \"fixed\",\n      \"radius\": 80,\n      \"deadZone\": 12,\n      \"outerDeadZone\": 5,\n      \"curve\": 1.4,\n      \"sensitivity\": 1.2,\n      \"smoothing\": 0\n    }\n  ]\n}",
+    "json": "{\n  \"format\": \"game-input-lab/landscape-layout\",\n  \"version\": 1,\n  \"name\": \"Vector sample\",\n  \"lab\": \"gamepad\",\n  \"orientation\": \"landscape\",\n  \"units\": {\n    \"orientation\": \"landscape or portrait: which way the phone is held; the layout is for that one\",\n    \"anchorX\": \"fraction of the safe area width, from the left\",\n    \"anchorY\": \"fraction of the safe area height, from the bottom (y up, like a Unity anchor)\",\n    \"visual\": \"visible button diameter in points\",\n    \"hit\": \"touch (hit) diameter in points\",\n    \"sticks\": \"same fields and units as game-input-lab/joystick; a stick ring is 2 × radius wide\"\n  },\n  \"controls\": [\n    {\n      \"id\": \"left\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.22,\n      \"anchorY\": 0.35\n    },\n    {\n      \"id\": \"A\",\n      \"kind\": \"button\",\n      \"anchorX\": 0.7,\n      \"anchorY\": 0.25,\n      \"visual\": 60,\n      \"hit\": 80\n    },\n    {\n      \"id\": \"B\",\n      \"kind\": \"button\",\n      \"anchorX\": 0.86,\n      \"anchorY\": 0.52,\n      \"visual\": 56,\n      \"hit\": 72\n    }\n  ],\n  \"sticks\": [\n    {\n      \"id\": \"left\",\n      \"mode\": \"fixed\",\n      \"radius\": 80,\n      \"deadZone\": 12,\n      \"outerDeadZone\": 5,\n      \"curve\": 1.4,\n      \"sensitivity\": 1.2,\n      \"smoothing\": 0\n    }\n  ]\n}",
     "controls": [
       {
         "id": "left",
@@ -11836,5 +12173,9 @@
         "smoothing": 0
       }
     ]
+  },
+  "portraitExport": {
+    "json": "{\n  \"format\": \"game-input-lab/landscape-layout\",\n  \"version\": 1,\n  \"name\": \"Vector sample portrait\",\n  \"lab\": \"gamepad\",\n  \"orientation\": \"portrait\",\n  \"units\": {\n    \"orientation\": \"landscape or portrait: which way the phone is held; the layout is for that one\",\n    \"anchorX\": \"fraction of the safe area width, from the left\",\n    \"anchorY\": \"fraction of the safe area height, from the bottom (y up, like a Unity anchor)\",\n    \"visual\": \"visible button diameter in points\",\n    \"hit\": \"touch (hit) diameter in points\",\n    \"sticks\": \"same fields and units as game-input-lab/joystick; a stick ring is 2 × radius wide\"\n  },\n  \"controls\": [\n    {\n      \"id\": \"left\",\n      \"kind\": \"stick\",\n      \"anchorX\": 0.27,\n      \"anchorY\": 0.18\n    },\n    {\n      \"id\": \"A\",\n      \"kind\": \"button\",\n      \"anchorX\": 0.64,\n      \"anchorY\": 0.12,\n      \"visual\": 56,\n      \"hit\": 72\n    },\n    {\n      \"id\": \"B\",\n      \"kind\": \"button\",\n      \"anchorX\": 0.84,\n      \"anchorY\": 0.26,\n      \"visual\": 56,\n      \"hit\": 72\n    }\n  ],\n  \"sticks\": [\n    {\n      \"id\": \"left\",\n      \"mode\": \"fixed\",\n      \"radius\": 64,\n      \"deadZone\": 10,\n      \"outerDeadZone\": 0,\n      \"curve\": 1,\n      \"sensitivity\": 1,\n      \"smoothing\": 0\n    }\n  ]\n}",
+    "orientation": "portrait"
   }
 }

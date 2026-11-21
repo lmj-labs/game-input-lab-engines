@@ -109,6 +109,19 @@ namespace GameInputLab.Tests
         }
 
         [Test]
+        public void OrientationIsReadFromTheJson()
+        {
+            VectorFile file = Load();
+            Assert.AreEqual("landscape", LandscapeLayout.FromJson(file.landscapeExport.json).orientation);
+            Assert.AreEqual(file.portraitExport.orientation, LandscapeLayout.FromJson(file.portraitExport.json).orientation);
+            Assert.AreEqual("portrait", file.portraitExport.orientation);
+            // Older exports have no orientation, and anything unknown counts as landscape.
+            string format = "\"format\": \"game-input-lab/landscape-layout\"";
+            Assert.AreEqual("landscape", LandscapeLayout.FromJson("{" + format + ", \"lab\": \"gamepad\"}").orientation);
+            Assert.AreEqual("landscape", LandscapeLayout.FromJson("{" + format + ", \"orientation\": \"sideways\"}").orientation);
+        }
+
+        [Test]
         public void ApplyPlacesAndSizesControlsInsideTheSafeArea()
         {
             var root = new GameObject("SafeRoot", typeof(RectTransform));
@@ -163,7 +176,10 @@ namespace GameInputLab.Tests
             public int version;
             public LayoutCase[] layout;
             public ExportDto landscapeExport;
+            public PortraitDto portraitExport;
         }
+
+        [Serializable] class PortraitDto { public string json; public string orientation; }
 
         [Serializable] class LayoutCase
         {

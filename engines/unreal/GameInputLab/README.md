@@ -29,7 +29,7 @@ Positions and outputs use +y up, like the app. Unreal's screen y points down: pa
 | `FGILStickTracker` | Finger ownership, cancel, lost ID, interrupt | `components/stickTracker.ts` |
 | `FGILAimBehavior` | Weapon heading, fire threshold, slow while aiming | `components/aimBehavior.ts` |
 | `FGILSceneMotion` | Reference scene: speed, acceleration, turning, follow camera | `components/sceneMotion.ts` |
-| `FGILSafeAreaLayout`, `FGILLandscapeLayout` | Safe-area placement, layout JSON, `Place` for a widget | `landscape/layout.ts` |
+| `FGILSafeAreaLayout`, `FGILLandscapeLayout` | Safe-area placement, layout JSON (`Orientation`: "landscape" or "portrait", lock the screen to match), `Place` for a widget | `landscape/layout.ts` |
 
 All numbers are `double`. JSON exports from the app load with `FromJson` on the config, scene and layout types.
 
@@ -39,7 +39,7 @@ All numbers are `double`. JSON exports from the app load with `FromJson` on the 
 
 ## Haptics
 
-`FGILHapticPattern` is a custom vibration from the Haptics Lab: `IntensityAt`, `AndroidTimings` and `AndroidAmplitudes`, `LegacyTimings`, `IosEvents`, and `Amplitudes(SampleRate)`, the pattern sampled as 0-255 values. It only computes; there is no player. To play it, fill a `UHapticFeedbackEffect_Buffer` (`Amplitudes`, `SampleRate`) and call `PlayHapticEffect`. That path has not been tried on a phone.
+`FGILHapticPattern` is a custom vibration from the Haptics Lab: `IntensityAt`, `AndroidTimings` and `AndroidAmplitudes`, `LegacyTimings`, `IosEvents`, and `Amplitudes(SampleRate)`, the pattern sampled as 0-255 values. `bLoop` says the pattern repeats from the start when it ends (its total length is the period, so end it with a 0% step to leave a gap); pass it as `bLoop` to `PlayHapticEffect`. `AndroidRepeat()` is the matching Android `repeat` argument. It only computes; there is no player. To play it, fill a `UHapticFeedbackEffect_Buffer` (`Amplitudes`, `SampleRate`) and call `PlayHapticEffect`. That path has not been tried on a phone.
 
 ## Tests
 
