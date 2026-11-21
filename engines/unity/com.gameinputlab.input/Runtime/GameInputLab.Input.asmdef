@@ -1,0 +1,22 @@
+{
+    "name": "GameInputLab.Input",
+    "rootNamespace": "GameInputLab",
+    "references": [
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.4.0",
+            "define": "GIL_INPUT_SYSTEM"
+        }
+    ],
+    "noEngineReferences": false
+}

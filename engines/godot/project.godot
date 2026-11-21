@@ -1,0 +1,10 @@
+; Test project for the Game Input Lab addon. Not needed to use the addon in your own project:
+; copy addons/game_input_lab into it. Run the tests with:
+;   godot --headless --path engines/godot -s tests/run_vectors.gd
+
+config_version=5
+
+[application]
+
+config/name="Game Input Lab addon tests"
+config/features=PackedStringArray("4.3")
